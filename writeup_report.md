@@ -48,7 +48,7 @@ python drive.py model.h5 <folder>
 
 #### Submission Code Readability and Usability
 
-The model.py file contains the Python/Keras code for training and saving the convolution neural network. It loads the images and steering angles from the simulation output.  It does any image manipulation necessary.  It defines the neural network architecture.  It defines the cost function and optimization function.  It defines any hyper paranmeters required for training.  It then trains and saves the model to a file.
+The model.py file contains the Python/Keras code for training and saving the convolution neural network. It loads the images and steering angles from the simulation output.  It does any image manipulation necessary.  It defines the neural network architecture.  It defines the cost function and optimization function.  It defines any hyper parameters required for training.  It then trains and saves the model to a file.
 
 The drive.py file is the same as that provided by the Udacity project download from github and is unchanged.
 
@@ -89,7 +89,7 @@ The model was tested by running it through the simulator and ensuring that the v
 
 The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 57).
 
-The number of epochs was eventually tuned to 3 (model.py line 60).  I tried 1, 2 and aas high as 20.  The lowest errors seemed to occur by epoch 3 without having any benefit to training further.
+The number of epochs was eventually tuned to 3 (model.py line 60).  I tried 1, 2 and as high as 20.  The lowest errors seemed to occur by epoch 3 without having any benefit to training further.
 
 The dropout rate was 0.5 and not tuned at all.
 
@@ -103,33 +103,44 @@ After several failed attempts at generating my own training data, I ended up usi
 
 For details of my own experiences capturing data, see the section below.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+For my model architecture, I initially tried an AlexNet architecture since this is a successful architecture for image classification and one with which I am familiar.  This did not perform well however.  The test scenario on the simulator did not perform. Perhaps because this was a numerical regression instead of a logistical regression for purposes of classification which is what the AlexNet is used for.  
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+I then switched to the NVIDIA architecture which was developed specifically for self driving cars.  I tweaked this a bit resulting in the following 8 layer architecture (recreated from previous section). 
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+As mentioned earlier, to improve training, I cropped 70 pixels from top of image and 20 pixels from bottom of image in order to remove any information not directly involved in steering.  That is, any parts of image not showing the road.  
 
-To combat the overfitting, I modified the model so that ...
+To help prevent overfitting, I added dropout after each of the last fully connected layers.
 
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+The ability to train the model was most influenced by the quality and amount of traiing data.  I would go through iterations of capturing data, training, and then testing the model.  This was a long laborious process!  
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
+Once I finally downloaded the sample data from Udacity, the entire process went much smoother because I then had data in which I could be confident and could concentrate on tuning the model.
+
+One interesting observation, for a given architecture and set of tuning parameters (i.e., a static model.py file), several training iterations yielded quite varying results in models.  For example, out of 20 training sessions with the same model.py and input data, I would get models that perfomed with varying degrees of success!
+
 ####2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Layer | Description
+------------ | -------------
+Layer 1 | Input layer of image dimension 160 X 300 X 3, normalized, then cropped to output dimension 70 X 320 X 3
+Layer 2 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation, resulting in output dimension 33 X 158 X 24 
+Layer 3 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation resulting in output dimension 15 X 77 X 36
+Layer 4 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation resulting in output dimension 6 X 37 X 48
+Layer 5 | 3 X 3 convolutional layer, relu activation resulting in output dimension 4 X 37 X 64
+Layer 6 | 3 X 3 convolutional layer, relu activation resulting in output dimension 2 X 37 X 64
+Layer 7 | Flatten to output dimension 4736
+Layer 8 | Fully connected layer with output dimension 100 with Dropout rate of 0.5
+Layer 9 | Fully connected layer with output dimension 50 with dropout rate of 0.5
+Layer 10 | Final output of dimension 1
 
-![alt text][image1]
-
-####3. Creation of the Training Set & Training Process
+### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
