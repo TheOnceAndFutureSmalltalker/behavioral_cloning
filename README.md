@@ -4,7 +4,7 @@ This project involves using an AI program to mimic human driving behavior.  A dr
 <br />
 <br />
 
-<img src='track.jpg'>
+<img src='track.jpg' style="display: block; margin-left: auto; margin-right: auto">
 
 #### A typical view of the track from the car's perspective.
 <br /><br />
@@ -16,7 +16,7 @@ File | Description
 model.h5 | The model developed by the neural network that mimics human driving of the simulated car
 <a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/drive.py">drive.py</a> | Python code used to load and run the model in the car simulator
 <a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/blob/master/writeup.md">writeup_report.md</a> | Full description of the project and suggestions for improvement
-<a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/track.jpg">track.jpg</a> | Sample image of view of track
+img | Folder of various images used for illustration purposes
 <a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/video.mp4">video.mp4</a> | Video of AI program driving the car around the track
 
 ## Instructions
