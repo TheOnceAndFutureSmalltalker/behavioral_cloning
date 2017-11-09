@@ -14,8 +14,10 @@ File | Description
 ------------ | -------------
 <a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/blob/master/model.py">model.py</a> | Python code defining the neural network used to train the model from input images and throttle angles
 model.h5 | The model developed by the neural network that mimics human driving of the simulated car
-<a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/tree/master/drive.py">download folder</a> | Python code used to load and run the model in the car simulator
+<a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/drive.py">drive.py</a> | Python code used to load and run the model in the car simulator
 <a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/blob/master/writeup.md">writeup_report.md</a> | Full description of the project and suggestions for improvement
+<a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/track.jpg">track.jpg</a> | Sample image of view of track
+<a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/video.mp4">video.mp4</a> | Video of AI program driving the car around the track
 
 ## Instructions
 
