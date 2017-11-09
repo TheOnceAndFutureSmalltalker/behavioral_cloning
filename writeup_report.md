@@ -1,5 +1,5 @@
 
-**Behavioral Cloning Project**
+# Behavioral Cloning Project
 
 The goals / steps of this project are the following:
 * Use the simulator to collect data of good driving behavior
@@ -9,14 +9,13 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+
+Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-## Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
-
-### My project includes the following files:
+#### My project includes the following files:
 
 File | Description
 ------------ | -------------
@@ -26,11 +25,12 @@ model.h5 | The model developed by the neural network that mimics human driving o
 <a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/blob/master/writeup.md">writeup_report.md</a> | Full description of the project and suggestions for improvement
 <a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/video.mp4">video.mp4</a> | Video of AI program driving the car around the track
 
-### Code Execution
+#### Code Function and Execution
 1. Driving data is first acquired by executing the simulator in <e>record mode</e> and saving images and a log file of numeric data to a folder.
 ```sh
 windows_sim.exe
 ```
+
 2. The images and log file are then read in by model.py which then uses the input data to train a convolutional neural network to drive the simulator and saves the model to the file model.h5.
 ```sh
 python model.py
@@ -46,34 +46,62 @@ python drive.py model.h5
 python drive.py model.h5 <folder>
 ```
 
+#### Submission Code Readability and Usability
 
-####3. Submission code is usable and readable
+The model.py file contains the Python/Keras code for training and saving the convolution neural network. It loads the images and steering angles from the simulation output.  It does any image manipulation necessary.  It defines the neural network architecture.  It defines the cost function and optimization function.  It defines any hyper paranmeters required for training.  It then trains and saves the model to a file.
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+The drive.py file is the same as that provided by the Udacity project download from github and is unchanged.
 
-###Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+### Model Architecture and Training Strategy
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+#### 1. An appropriate model architecture has been employed
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+I initially tried an AlexNet architecture but did not get adequate results.  I then switched to the NVIDIA architecture which was developed specifically for self driving cars.  I tweaked this a bit resulting in the following 8 layer architecture. 
 
-####2. Attempts to reduce overfitting in the model
+Layer | Description
+------------ | -------------
+Layer 1 | Input layer of image dimension 160 X 300 X 3, normalized, then cropped to output dimension 70 X 320 X 3
+Layer 2 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation, resulting in output dimension 33 X 158 X 24 
+Layer 3 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation resulting in output dimension 15 X 77 X 36
+Layer 4 | 5 X 5 convolutional layer with 2 X 2 pooling, relu activation resulting in output dimension 6 X 37 X 48
+Layer 5 | 3 X 3 convolutional layer, relu activation resulting in output dimension 4 X 37 X 64
+Layer 6 | 3 X 3 convolutional layer, relu activation resulting in output dimension 2 X 37 X 64
+Layer 7 | Flatten to output dimension 4736
+Layer 8 | Fully connected layer with output dimension 100 with Dropout rate of 0.5
+Layer 9 | Fully connected layer with output dimension 50 with dropout rate of 0.5
+Layer 10 | Final output of dimension 1
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+#### 2. Attempts to reduce overfitting in the model
 
-####3. Model parameter tuning
+To prevent overfitting I used the following strategies.  
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+1. Stop training once the training and validation losses stopped reducing.  This happened very quickly for this architecture.  Just 2 or 3 epochs was usually enough.  Especially for larger data sets which run several more mini batches.  
 
-####4. Appropriate training data
+2. Increased the data set making it less likely the model will overfit.
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+3. Employed dropout on the last 2 fully connected layers (model.py lines 50 & 52)
 
-For details about how I created the training data, see the next section. 
+The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
+#### 3. Model parameter tuning
+
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 57).
+
+The number of epochs was eventually tuned to 3 (model.py line 60).  I tried 1, 2 and aas high as 20.  The lowest errors seemed to occur by epoch 3 without having any benefit to training further.
+
+The dropout rate was 0.5 and not tuned at all.
+
+I ended up using a training/validation split of 0.9/0.1 because the data set I eventually used had over 8,000 images and I felt 10% of that was fine for validation giving me more images to train on.
+
+The raw images were cropped to eliminate those parts of the image better focus the training on those parts of the image that actually contain the road.  For this purpose, the images were cropped 70 pixels from top and 20 pixels from bottom resulting in mage dimension of 90 X 320 X 3.  Nothing was cropped from the sides.
+
+#### 4. Appropriate training data
+
+After several failed attempts at generating my own training data, I ended up using the training data supplied by Udacity.  It was much higher quality and more data than I could provide.  
+
+For details of my own experiences capturing data, see the section below.
 
 ###Model Architecture and Training Strategy
 
