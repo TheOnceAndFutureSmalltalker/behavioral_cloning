@@ -4,9 +4,11 @@ This project involves using an AI program to mimic human driving behavior.  A dr
 <br />
 <br />
 
-<img src='track.jpg' style="display: block; margin-left: auto; margin-right: auto">
+<p align="center"><img src='track.jpg' > 
 
 #### A typical view of the track from the car's perspective.
+
+</p>
 <br /><br />
 ## Deliverable Files
 
