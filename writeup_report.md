@@ -105,7 +105,7 @@ For details of my own experiences capturing data, see the section below.
 
 ### Model Architecture and Training Strategy
 
-### 1. Solution Design Approach
+#### 1. Solution Design Approach
 
 For my model architecture, I initially tried an AlexNet architecture since this is a successful architecture for image classification and one with which I am familiar.  This did not perform well however.  The test scenario on the simulator did not perform. Perhaps because this was a numerical regression instead of a logistical regression for purposes of classification which is what the AlexNet is used for.  
 
@@ -121,11 +121,9 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 Once I finally downloaded the sample data from Udacity, the entire process went much smoother because I then had data in which I could be confident and could concentrate on tuning the model.
 
-One interesting observation, for a given architecture and set of tuning parameters (i.e., a static model.py file), several training iterations yielded quite varying results in models.  For example, out of 20 training sessions with the same model.py and input data, I would get models that perfomed with varying degrees of success!
+#### 2. Final Model Architecture
 
-####2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes 
+The final model architecture (model.py lines 40-53) consisted of a convolution neural network with the following layers and dimensions.
 
 Layer | Description
 ------------ | -------------
@@ -142,28 +140,29 @@ Layer 10 | Final output of dimension 1
 
 ### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+I tried several approaches to capturing my own data.
 
-![alt text][image2]
+Center lane driving.
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+slow driving
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+reversed track driving
 
-Then I repeated this process on track two in order to get more data points.
+flipped images
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+recovering from sides left side curving left, left side curving right, etc.
 
-![alt text][image6]
-![alt text][image7]
+multiple laps
 
-Etc ....
+In training the model, I spent way too much time training on my poor quality data which, of course, did not yield models which could drive the track successfully.  Initially, I never knew if it was my network architecture or the data that was at fault.  I slowly began to suspect that the data was just not good enough. My simulator driving is bad!  Therefor, I was training my model how to drive poorly!
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+Finally, after much frustration, I ended up using Udacity's data set which is much richer and higher quality than what I was able to produce myself.  After inspecting it, I noticed it included a lap (perhaps more) of driving the track in the opposite direction, so I removed my image flipping code form model.py.
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+## Final Results
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I ended up with a model that (usually!) completed the track without incident.  It consistently had one problem on the one right hand turn in the track.  It tended to swing wide, sometimes hitting the cement berm, other times not.  I recorded one where it didn't.  In the video, it appears as though it might be hitting but that is because of the drivers perspective.  If you run it in autonomous mode where you actually see the wheels of the car, you can see that it comes close but does not actually hit the berm.
+
+
+
+
