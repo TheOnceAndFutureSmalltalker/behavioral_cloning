@@ -19,7 +19,7 @@ Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/4
 ---
 ### Files Submitted & Code Quality
 
-#### My project includes the following files:
+#### 1. My project includes the following files:
 
 File | Description
 ------------ | -------------
@@ -29,7 +29,7 @@ model.h5 | The model developed by the neural network that mimics human driving o
 <a href="https://github.com/TheOnceAndFutureSmalltalker/street_sign_recognition/blob/master/writeup.md">writeup_report.md</a> | Full description of the project and suggestions for improvement
 <a href="https://github.com/TheOnceAndFutureSmalltalker/behavioral_cloning/blob/master/video.mp4">video.mp4</a> | Video of AI program driving the car around the track
 
-#### Code Function and Execution
+#### 2. Code Function and Execution
 1. Driving data is first acquired by executing the simulator in <e>record mode</e> and saving images and a log file of numeric data to a folder.
 ```sh
 windows_sim.exe
@@ -50,7 +50,7 @@ python drive.py model.h5
 python drive.py model.h5 <folder>
 ```
 
-#### Submission Code Readability and Usability
+#### 3. Submission Code Readability and Usability
 
 The model.py file contains the Python/Keras code for training and saving the convolution neural network. It loads the images and steering angles from the simulation output.  It does any image manipulation necessary.  It defines the neural network architecture.  It defines the cost function and optimization function.  It defines any hyper parameters required for training.  It then trains and saves the model to a file.
 
@@ -117,6 +117,12 @@ I then switched to the NVIDIA architecture which was developed specifically for 
 
 As mentioned earlier, to improve training, I cropped 70 pixels from top of image and 20 pixels from bottom of image in order to remove any information not directly involved in steering.  That is, any parts of image not showing the road.  
 
+<p align="center"><img src='img/uncropped.jpg' > </p>
+<p align="center"><b>Original Image.</b></p>
+
+<p align="center"><img src='img/cropped.jpg' > </p>
+<p align="center"><b>Cropped Image.</b></p>
+
 To help prevent overfitting, I added dropout after each of the last fully connected layers.
 
 The ability to train the model was most influenced by the quality and amount of traiing data.  I would go through iterations of capturing data, training, and then testing the model.  This was a long laborious process!  
@@ -173,14 +179,14 @@ Instead, the captured images appear as they would from perspective of a camera m
 **Flipped Images**  In order to enhance data set without having to operate the simulator, I tried flipping the images that I captured.  This doubled the data set and is similar to driving the track in the opposite direction.
 
 <p align="center"><img src='img/flip1.jpg' > </p>
-<p align="center"><b>Center lane driving.</b></p>
+<p align="center"><b>Original Image.</b></p>
 
 <p align="center"><img src='img/flip2.jpg' > </p>
-<p align="center"><b>Center lane driving.</b></p>
+<p align="center"><b>Flipped Image.</b></p>
 
 **Other Techniques** Some of the other techniques I tried were to capture case of recovering from being on one side of the road or the other.  This was difficult for me to accomplish.  I also created a data set of 2 laps.  Neither of these seemed to help generate a successful model.
 
-In training the model, I spent way too much time training on my poor quality data which, of course, did not yield models which could drive the track successfully.  Initially, I never knew if it was my network architecture or the data that was at fault.  I slowly began to suspect that the data was just not good enough. My simulator driving is bad!  Therefor, I was training my model how to drive poorly!
+**Model Training** In training the model, I spent way too much time training on my poor quality data which, of course, did not yield models which could drive the track successfully.  Initially, I never knew if it was my network architecture or the data that was at fault.  I slowly began to suspect that the data was just not good enough. My simulator driving is bad!  Therefor, I was training my model how to drive poorly!
 
 Finally, after much frustration, I ended up using Udacity's data set which is much richer and higher quality than what I was able to produce myself.  After inspecting it, I noticed it included a lap (perhaps more) of driving the track in the opposite direction, so I removed my image flipping code form model.py.
 
