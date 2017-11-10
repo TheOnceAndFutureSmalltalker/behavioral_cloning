@@ -7,6 +7,10 @@ The goals / steps of this project are the following:
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
+<br />
+<p align="center"><img src='img/simulator_perspective.jpg' > </p>
+<p align="center"><b>A typical view of the track when operating simulator.</b></p>
+<br />
 
 ## Rubric Points
 
@@ -123,7 +127,7 @@ Once I finally downloaded the sample data from Udacity, the entire process went 
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 40-53) consisted of a convolution neural network with the following layers and dimensions.
+The final model architecture (model.py lines 40-53) consisted of a convolution neural network with the following layers and dimensions (recreated from above).
 
 Layer | Description
 ------------ | -------------
@@ -140,19 +144,41 @@ Layer 10 | Final output of dimension 1
 
 ### 3. Creation of the Training Set & Training Process
 
-I tried several approaches to capturing my own data.
+**Explanation of Image Data** The images that are captured from the simulator do not look like the images when running the simulator.  
 
-Center lane driving.
+<br />
+<p align="center"><img src='img/simulator_perspective.jpg' > </p>
+<p align="center"><b>A typical view of the track from simulator perspective.</b></p>
+<br />
 
-slow driving
+Instead, the captured images appear as they would from perspective of a camera mounted on the vehicle.
 
-reversed track driving
+<br />
+<p align="center"><img src='img/car_perspective.jpg' > </p>
+<p align="center"><b>A typical view of the track from car perspective.</b></p>
+<br />
 
-flipped images
+**Center Lane Driving** I tried several approaches to capturing my own data. Initially I did just simple, center lane driving for a single lap.  I was not very good at this.  I tried using both mouse and keyboard.  I had more success with mouse but still took a while to complete one decent lap.  
 
-recovering from sides left side curving left, left side curving right, etc.
+<p align="center"><img src='img/center_lane_driving.jpg' > </p>
+<p align="center"><b>Center lane driving.</b></p>
 
-multiple laps
+**Slow Driving**  In order to keep the car better centered, I tried going slow.  Previously I had gone full throttle but found it hard to control on the curves.  But when this slower throttle data was trained, it yielded terrible results.  I suspect because steering angle is affected by speed.
+
+**Reverse Track Driving**  To enhance the data set, I drove the track in the opposite direction (clockwise).  The normal driving is mostly left hand turns (one exception).  In the image below, clockwise driving, the road is veering to the right, and not left.  This should help the model to generalize.  The trained models with this enhanced dataset, did not improve much.
+
+<p align="center"><img src='img/driving_clockwise.jpg' > </p>
+<p align="center"><b>Image of driving the track the other way.</b></p>
+
+**Flipped Images**  In order to enhance data set without having to operate the simulator, I tried flipping the images that I captured.  This doubled the data set and is similar to driving the track in the opposite direction.
+
+<p align="center"><img src='img/flip1.jpg' > </p>
+<p align="center"><b>Center lane driving.</b></p>
+
+<p align="center"><img src='img/flip2.jpg' > </p>
+<p align="center"><b>Center lane driving.</b></p>
+
+**Other Techniques** Some of the other techniques I tried were to capture case of recovering from being on one side of the road or the other.  This was difficult for me to accomplish.  I also created a data set of 2 laps.  Neither of these seemed to help generate a successful model.
 
 In training the model, I spent way too much time training on my poor quality data which, of course, did not yield models which could drive the track successfully.  Initially, I never knew if it was my network architecture or the data that was at fault.  I slowly began to suspect that the data was just not good enough. My simulator driving is bad!  Therefor, I was training my model how to drive poorly!
 
@@ -161,7 +187,7 @@ Finally, after much frustration, I ended up using Udacity's data set which is mu
 
 ## Final Results
 
-I ended up with a model that (usually!) completed the track without incident.  It consistently had one problem on the one right hand turn in the track.  It tended to swing wide, sometimes hitting the cement berm, other times not.  I recorded one where it didn't.  In the video, it appears as though it might be hitting but that is because of the drivers perspective.  If you run it in autonomous mode where you actually see the wheels of the car, you can see that it comes close but does not actually hit the berm.
+I ended up with a model that (usually!) completed the track without incident.  It consistently had one problem on the one right hand turn in the track.  It tended to swing wide, sometimes hitting the cement berm, other times not.  I recorded one where it didn't.  In the video, it appears as though it might be hitting but that is because of the drivers perspective.  If you run it in autonomous mode where you actually see the wheels of the car, you can see that it comes close but does not actually hit the berm and stays on the road.
 
 
 
