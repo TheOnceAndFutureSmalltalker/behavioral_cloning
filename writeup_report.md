@@ -54,7 +54,7 @@ python drive.py model.h5 <folder>
 
 The model.py file contains the Python/Keras code for training and saving the convolution neural network. It loads the images and steering angles from the simulation output.  It does any image manipulation necessary.  It defines the neural network architecture.  It defines the cost function and optimization function.  It defines any hyper parameters required for training.  It then trains and saves the model to a file.
 
-The drive.py file is the same as that provided by the Udacity project download from github and is unchanged.
+The drive.py was originally provided by Udacity.  It uses socketio to receive an image from simulator, run it through the trained model, and return back an appropriate steering angle to the simulator.  I added one line of code for converting the received image from simulator from RGB to BGR since the model was trained on BGR images.
 
 
 ### Model Architecture and Training Strategy
@@ -127,9 +127,8 @@ To help prevent overfitting, I added dropout after each of the last fully connec
 
 The ability to train the model was most influenced by the quality and amount of traiing data.  I would go through iterations of capturing data, training, and then testing the model.  This was a long laborious process!  
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
 Once I finally downloaded the sample data from Udacity, the entire process went much smoother because I then had data in which I could be confident and could concentrate on tuning the model.
+
 
 #### 2. Final Model Architecture
 
@@ -190,10 +189,12 @@ Instead, the captured images appear as they would from perspective of a camera m
 
 Finally, after much frustration, I ended up using Udacity's data set which is much richer and higher quality than what I was able to produce myself.  After inspecting it, I noticed it included a lap (perhaps more) of driving the track in the opposite direction, so I removed my image flipping code form model.py.
 
+Staying with the NVIDIA architecture I trained a new model with the Udacity supplied data.  I only used the center camera images.  I trained several models with this same architecture and data.  I was able to produce a model that went around the track quite nicely except for some problems at the right turn after bridge.  The car would swing wide and sometimes hit the berm and sometimes just came close.
 
-## Final Results
+I submitted this model and video but it was rejected since the car came too close to the berm.  The reviewer made several suggestions.  One of which was converting simulator images from RGB to BGR since openCV used in the training of the model reads in images as BGR (I had no idea this waas the case!).  After I added this one-line change to drive.py, the original model performed great, avoiding the outside berm on the right hand turn and staying in center of track throughout.  
 
-I ended up with a model that (usually!) completed the track without incident.  It consistently had one problem on the one right hand turn in the track.  It tended to swing wide, sometimes hitting the cement berm, other times not.  I recorded one where it didn't.  In the video, it appears as though it might be hitting but that is because of the drivers perspective.  If you run it in autonomous mode where you actually see the wheels of the car, you can see that it comes close but does not actually hit the berm and stays on the road.
+
+
 
 
 
