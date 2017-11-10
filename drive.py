@@ -61,6 +61,8 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
+        # convert images from RGB to BGR since model was trained with
+        # BGR images due to openCV reading them in as BGR in model.py
         image_array = cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR)
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
