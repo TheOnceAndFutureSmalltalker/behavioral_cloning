@@ -12,14 +12,11 @@ The goals / steps of this project are the following:
 <p align="center"><b>A typical view of the track when operating simulator.</b></p>
 <br />
 
-## Rubric Points
-
-Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
 ### Files Submitted & Code Quality
 
-#### 1. My project includes the following files:
+#### 1. Project includes the following files:
 
 File | Description
 ------------ | -------------
